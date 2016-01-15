@@ -1,0 +1,23 @@
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2008
+
+Project("{54A70525-0F4B-4513-738C-8DDE70A345C7}") = "Makey Burger", "Assembly-CSharp.csproj", "{6888CF7A-AFAB-D8F0-384C-1D98EA6FCCED}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6888CF7A-AFAB-D8F0-384C-1D98EA6FCCED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6888CF7A-AFAB-D8F0-384C-1D98EA6FCCED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6888CF7A-AFAB-D8F0-384C-1D98EA6FCCED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6888CF7A-AFAB-D8F0-384C-1D98EA6FCCED}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = Assembly-CSharp.csproj
+	EndGlobalSection
+EndGlobal
