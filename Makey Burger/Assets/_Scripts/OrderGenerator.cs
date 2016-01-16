@@ -4,13 +4,22 @@ using System.Collections;
 
 public class OrderGenerator : MonoBehaviour {
 
-	public Text OrderText;
+	public Text DisplayOrderText;
+	public Text DisplayOrdersCompleted;
+	public Text MoneyEarned;
+	public Text Timer;
+
+	float timeLeft = 3.0f;
+	private double calculate;
 
 	//This is how many toppings this burger can potentially have.
 	public int potentialToppings = 0;
 
 	//This is how many toppings have been random chosen for this burger so far.
 	int toppingCount = 0;
+
+	//This is how many orders have been completed.
+	int ordersCompleted = 0;
 
 	//This determines whether or not each of the selected toppings have been placed yet.
 	bool topping1Placed = false;
@@ -69,6 +78,14 @@ public class OrderGenerator : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
+		timeLeft -= Time.deltaTime;
+		Timer.text = "Time Left:" + Mathf.Round(timeLeft);
+		if(timeLeft < 0)
+		{
+			print ("Time over!");
+		}
+
 		if (Input.GetKeyDown (topping1)) {
 			print (toppingDesc1);
 			topping1Placed = true;
@@ -93,6 +110,8 @@ public class OrderGenerator : MonoBehaviour {
 			print (toppingDesc6);
 			topping6Placed = true;
 		}
+		calculate = ordersCompleted * 5.98;
+		MoneyEarned.text = calculate.ToString ();
 		WinCheck ();
 	}
 
@@ -103,7 +122,7 @@ public class OrderGenerator : MonoBehaviour {
 		} else if (toppingCount == potentialToppings) {
 			orderUp = orderUp + "and hold the mayo, PLEASE!";
 			print (orderUp);
-			OrderText.text = orderUp;
+			DisplayOrderText.text = orderUp;
 		} else {
 			OrderReset ();
 			BurgerGenerator ();
@@ -247,7 +266,9 @@ public class OrderGenerator : MonoBehaviour {
 		topping4Placed = false;
 		topping5Placed = false;
 		topping6Placed = false;
+		youWin = false;
 	}
+
 	void WinCheck(){
 		if (topping1Placed == true) {
 			if(topping2Placed== true){
@@ -258,6 +279,10 @@ public class OrderGenerator : MonoBehaviour {
 								if (youWin == false) {
 									youWin = true;
 									print ("Order completed!");
+									ordersCompleted++;
+									OrderReset ();
+									BurgerGenerator ();
+									DisplayOrdersCompleted.text = ordersCompleted.ToString();
 								}
 							}
 						}
