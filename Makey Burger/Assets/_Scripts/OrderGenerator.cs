@@ -1,11 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-
-
 public class OrderGenerator : MonoBehaviour {
-	int burgCount = 0;
-	bool meat = false;
+
+	//This is how many toppings this burger can potentially have.
+	public int potentialToppings = 0;
+
+	//This is how many toppings have been random chosen for this burger so far.
+	int toppingCount = 0;
+
+	//These are the available toppings.
+	bool patty = false;
 	bool lettuce = false;
 	bool pickles = false;
 	bool tomatoes = false;
@@ -15,80 +20,97 @@ public class OrderGenerator : MonoBehaviour {
 	bool relish = false;
 	bool onions = false;
 	bool bacon = false;
-	string orderUp = "Please make me a ";
+
+	//These contain the keybindings for the current toppings.
+	string topping1 = "z";
+
+	string orderUp = "Please make me a burger with ";
 
 	// Use this for initialization
 	void Start () {
-
+		BurgerGenerator ();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		if (burgCount < 6	) {
-			OrderRandomizer ();
-		} else if (burgCount == 6) {
-			
-		} else {
-			OrderReset ();
+		if (Input.GetKeyDown (topping1)) {
+			print ("You push the button!");
 		}
-		print (orderUp);
 	}
 
-	void OrderRandomizer(){
+	void BurgerGenerator(){
+		
+		if (toppingCount < potentialToppings	) {
+			toppingRandomizer ();
+		} else if (toppingCount == potentialToppings) {
+			orderUp = orderUp + "and hold the mayo, PLEASE!";
+			print (orderUp);
+		} else {
+			OrderReset ();
+			BurgerGenerator ();
+		}
+	}
+
+	//This randomizes the toppings ordered on the burger.
+	void toppingRandomizer(){
 		if (Random.Range (0, 2) == 1) {
-			meat = true;
-			burgCount++;
-			orderUp = orderUp + "meat, ";
+			patty = true;
+			toppingCount++;
+			orderUp = orderUp + "one patty, ";
+			topping1 = "q";
 		}
 		if (Random.Range (0, 2) == 1) {
 			lettuce = true;
-			burgCount++;
+			toppingCount++;
 			orderUp = orderUp + "lettuce, ";
 		}
 		if (Random.Range (0, 2) == 1) {
 			pickles = true;
-			burgCount++;
+			toppingCount++;
 			orderUp = orderUp + "pickles, ";
 		}
 		if (Random.Range (0, 2) == 1) {
 			tomatoes = true;
-			burgCount++;
+			toppingCount++;
 			orderUp = orderUp + "tomatoes, ";
 		}
 		if (Random.Range (0, 2) == 1) {
 			mushrooms = true;
-			burgCount++;
+			toppingCount++;
 			orderUp = orderUp + "mushrooms, ";
 		}
 		if (Random.Range (0, 2) == 1) {
 			ketchup = true;
-			burgCount++;
+			toppingCount++;
 			orderUp = orderUp + "ketchup, ";
 		}
 		if (Random.Range (0, 2) == 1) {
 			mustard = true;
-			burgCount++;
+			toppingCount++;
 			orderUp = orderUp + "mustard, ";
 		}
 		if (Random.Range (0, 2) == 1) {
 			relish = true;
-			burgCount++;
+			toppingCount++;
 			orderUp = orderUp + "relish, ";
 		}
 		if (Random.Range (0, 2) == 1) {
 			onions = true;
-			burgCount++;
+			toppingCount++;
 			orderUp = orderUp + "onions, ";
 		}
 		if (Random.Range (0, 2) == 1) {
 			bacon = true;
-			burgCount++;
+			toppingCount++;
 			orderUp = orderUp + "bacon, ";
 		}
+		BurgerGenerator ();
 	}
+
+	//Resets the toppings ordered.
 	void OrderReset(){
-		burgCount = 0;
-		meat = false;
+		toppingCount = 0;
+		patty = false;
 		lettuce = false;
 		pickles = false;
 		tomatoes = false;
@@ -98,6 +120,7 @@ public class OrderGenerator : MonoBehaviour {
 		relish = false;
 		onions = false;
 		bacon = false;
-		orderUp = "Please make me a ";
+		orderUp = "Please make me a burger with ";
+		topping1 = "z";
 	}
 }
