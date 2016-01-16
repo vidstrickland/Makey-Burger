@@ -1,7 +1,10 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class OrderGenerator : MonoBehaviour {
+
+	public Text OrderText;
 
 	//This is how many toppings this burger can potentially have.
 	public int potentialToppings = 0;
@@ -61,6 +64,7 @@ public class OrderGenerator : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		BurgerGenerator ();
+		orderUp = "Please make me a burger with ";
 	}
 	
 	// Update is called once per frame
@@ -99,6 +103,7 @@ public class OrderGenerator : MonoBehaviour {
 		} else if (toppingCount == potentialToppings) {
 			orderUp = orderUp + "and hold the mayo, PLEASE!";
 			print (orderUp);
+			OrderText.text = orderUp;
 		} else {
 			OrderReset ();
 			BurgerGenerator ();
@@ -229,7 +234,7 @@ public class OrderGenerator : MonoBehaviour {
 		relish = false;
 		onions = false;
 		bacon = false;
-		orderUp = "Please make me a burger with ";
+		orderUp = "Make me a burger with ";
 		topping1 = "z";
 		topping2 = "z";
 		topping3 = "z";
