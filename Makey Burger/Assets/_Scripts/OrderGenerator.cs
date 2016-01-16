@@ -2,14 +2,26 @@
 using UnityEngine.UI;
 using System.Collections;
 
+//TODO
+//Add UI elements for toppings
+//Toggle UI elements as toppings are used
+//How to reset game using burger controller?
+//ART ALL OF THE THINGS
+
 public class OrderGenerator : MonoBehaviour {
 
 	public Text DisplayOrderText;
 	public Text DisplayOrdersCompleted;
 	public Text MoneyEarned;
 	public Text Timer;
+	public Text OrderTimer;
 
-	private float timeLeft = 10.0f;
+	//Time to play game
+	private float timeLeft = 90.0f;
+
+	//Time taken on current order
+	private float timeTaken = 0.0f;
+
 	private double calculate;
 
 	//This is how many toppings this burger can potentially have.
@@ -20,6 +32,15 @@ public class OrderGenerator : MonoBehaviour {
 
 	//This is how many orders have been completed.
 	int ordersCompleted = 0;
+
+	//This is the time need for the best possible bonus for Additional Scoring.
+	public int fastestBonus = 5;
+
+	//This is the time need for the second possible bonus for Additional Scoring.
+	public int fastBonus = 10;
+
+	//If you go over this, you will lose money.
+	public int standardTime = 20;
 
 	//This determines whether or not each of the selected toppings have been placed yet.
 	bool topping1Placed = false;
@@ -66,9 +87,12 @@ public class OrderGenerator : MonoBehaviour {
 	string toppingDesc4 = "Empty";
 	string toppingDesc5 = "Empty";
 	string toppingDesc6 = "Empty";
+	string orderUp = "Please make me a burger with ";
+
 	bool youWin = false;
 
-	string orderUp = "Please make me a burger with ";
+	double scoreCalculator;
+
 
 	// Use this for initialization
 	void Start () {
@@ -78,9 +102,13 @@ public class OrderGenerator : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		scoreCalculator = ordersCompleted;
 
 		timeLeft -= Time.deltaTime;
+		timeTaken += Time.deltaTime;
 		Timer.text = "Time Left:" + Mathf.Round(timeLeft);
+		OrderTimer.text = "This Order:" + Mathf.Round (timeTaken);
+
 		if(timeLeft < 0)
 		{
 			gameEnd ();
@@ -110,8 +138,8 @@ public class OrderGenerator : MonoBehaviour {
 			print (toppingDesc6);
 			topping6Placed = true;
 		}
-		calculate = ordersCompleted * 5.98;
-		MoneyEarned.text = calculate.ToString ();
+		//calculate = scoreCalculator * 5.98;
+		//MoneyEarned.text = calculate.ToString ();
 		WinCheck ();
 	}
 
@@ -123,6 +151,7 @@ public class OrderGenerator : MonoBehaviour {
 			orderUp = orderUp + "and hold the mayo, PLEASE!";
 			print (orderUp);
 			DisplayOrderText.text = orderUp;
+			timeTaken = 0;
 		} else {
 			OrderReset ();
 			BurgerGenerator ();
@@ -214,6 +243,7 @@ public class OrderGenerator : MonoBehaviour {
 		BurgerGenerator ();
 	}
 
+	//Attaches chosen toppings to keys
 	void toppingControls(string toppingKey, string toppingDescriptor){
 		if (toppingCount == 1) {
 			topping1 = toppingKey;
@@ -240,6 +270,26 @@ public class OrderGenerator : MonoBehaviour {
 			toppingDesc6 = toppingDescriptor;
 		}
 	}
+
+
+	//Additional scoring
+	void Scoring(){
+		if(Mathf.Round(timeTaken) < fastestBonus){
+			print ("Whoa! That's fast!");
+			calculate += 4.98;
+		}else if(Mathf.Round(timeTaken) < fastBonus){
+			print("That was fast!");
+			calculate += 4.36;
+		}else if(Mathf.Round(timeTaken) < standardTime){
+			print ("Thanks for the burger!");
+			calculate += 3.98;
+		}else{
+			print ("You took so long! I'm not even hungry now!");
+			calculate -= 0.29;
+		}
+		MoneyEarned.text = "$"+calculate.ToString ();
+	}
+
 	//Resets the toppings ordered.
 	void OrderReset(){
 		toppingCount = 0;
@@ -292,6 +342,8 @@ public class OrderGenerator : MonoBehaviour {
 									youWin = true;
 									print ("Order completed!");
 									ordersCompleted++;
+									scoreCalculator = ordersCompleted;
+									Scoring ();
 									OrderReset ();
 									BurgerGenerator ();
 									DisplayOrdersCompleted.text = ordersCompleted.ToString();
