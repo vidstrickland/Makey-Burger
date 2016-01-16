@@ -9,7 +9,7 @@ public class OrderGenerator : MonoBehaviour {
 	public Text MoneyEarned;
 	public Text Timer;
 
-	float timeLeft = 3.0f;
+	private float timeLeft = 10.0f;
 	private double calculate;
 
 	//This is how many toppings this burger can potentially have.
@@ -83,7 +83,7 @@ public class OrderGenerator : MonoBehaviour {
 		Timer.text = "Time Left:" + Mathf.Round(timeLeft);
 		if(timeLeft < 0)
 		{
-			print ("Time over!");
+			gameEnd ();
 		}
 
 		if (Input.GetKeyDown (topping1)) {
@@ -267,6 +267,18 @@ public class OrderGenerator : MonoBehaviour {
 		topping5Placed = false;
 		topping6Placed = false;
 		youWin = false;
+	}
+
+	void gameEnd(){
+		gameReset ();
+	}
+
+	void gameReset(){
+		ordersCompleted = 0;
+		DisplayOrdersCompleted.text = ordersCompleted.ToString();
+		timeLeft = 10.0f;
+		OrderReset ();
+		BurgerGenerator ();
 	}
 
 	void WinCheck(){
