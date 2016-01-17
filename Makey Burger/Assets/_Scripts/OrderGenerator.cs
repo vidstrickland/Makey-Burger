@@ -27,7 +27,7 @@ public class OrderGenerator : MonoBehaviour {
 	public Text OrderTimer;
 
 	//Time to play game
-	private float timeLeft = 5.0f;
+	private float timeLeft = 20.0f;
 
 	//Time taken on current order
 	private float timeTaken = 0.0f;
@@ -100,8 +100,8 @@ public class OrderGenerator : MonoBehaviour {
 	string toppingDesc6 = "Empty";
 	string orderUp = "Please make me a burger with ";
 
-	bool youWin = false;
-	bool grossBurger = false;
+	public bool youWin = false;
+	public bool grossBurger = false;
 
 	double scoreCalculator;
 
@@ -120,8 +120,8 @@ public class OrderGenerator : MonoBehaviour {
 
 		timeLeft -= Time.deltaTime;
 		timeTaken += Time.deltaTime;
-		Timer.text = "Time Remaining: " + Mathf.Round(timeLeft);
-		OrderTimer.text = "This Order:" + Mathf.Round (timeTaken);
+		Timer.text = Mathf.Round(timeLeft) + " seconds remaining";
+		OrderTimer.text = "You've spent " + Mathf.Round (timeTaken) + " seconds on this order.";
 
 		if(timeLeft < 0)
 		{
@@ -131,11 +131,17 @@ public class OrderGenerator : MonoBehaviour {
 		if (Input.GetKeyDown (topping1)) {
 			print (toppingDesc1);
 			topping1Placed = true;
-
+		}
+		if (Input.GetKeyUp (topping1)) {
+			//topping1Placed = false;
+			print ("burg off");
 		}
 		if (Input.GetKeyDown (topping2)) {
 			print (toppingDesc2);
 			topping2Placed = true;
+		}
+		if (Input.GetKeyUp (topping2)) {
+			//topping2Placed = false;
 		}
 		if (Input.GetKeyDown (topping3)) {
 			print (toppingDesc3);
@@ -337,7 +343,14 @@ public class OrderGenerator : MonoBehaviour {
 	}
 
 	void gameEnd(){
-		orderUp = "Test";
+		if (calculate > 0) {
+			orderUp = "Good job, you earned " + calculate + " today!";
+		} else if (calculate < 0) {
+			orderUp = "Looks like you're going to pay for that wasted food!";
+		} else {
+			orderUp = "Taking the day off, huh?";
+		}
+		DisplayOrderText.text = orderUp;
 		if (Input.GetKeyDown ("b")) {
 			gameReset();
 		}
@@ -345,6 +358,7 @@ public class OrderGenerator : MonoBehaviour {
 
 	void gameReset(){
 		ordersCompleted = 0;
+		calculate = 0.00;
 		DisplayOrdersCompleted.text = ordersCompleted.ToString();
 		timeLeft = 10.0f;
 		OrderReset ();
@@ -354,9 +368,9 @@ public class OrderGenerator : MonoBehaviour {
 	void WinCheck(){
 		if (topping1Placed) {
 			if(topping2Placed){
-				if(topping3Placed){
-					if (topping4Placed) {
-						if (topping5Placed) {
+				if(!topping3Placed){
+					if (!topping4Placed) {
+						if (!topping5Placed) {
 							if (!topping6Placed) {
 								if(Input.GetKeyDown ("b")){
 									if (!youWin == !grossBurger) {
@@ -521,7 +535,6 @@ public class OrderGenerator : MonoBehaviour {
 				isHidingPatty.Show ();
 			}
 		}
-
 		if (lettuce) {
 			if (Input.GetKeyDown ("w")) {
 				isHidingLettuce.Hide ();
