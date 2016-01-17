@@ -9,6 +9,9 @@ using System.Collections;
 //ART ALL OF THE THINGS
 
 public class OrderGenerator : MonoBehaviour {
+	public PattyHider isHidingPatty;
+	public LettuceHider isHidingLettuce;
+	public PicklesHider isHidingPickles;
 
 	public Text DisplayOrderText;
 	public Text DisplayOrdersCompleted;
@@ -102,6 +105,7 @@ public class OrderGenerator : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		UIHider ();
 		scoreCalculator = ordersCompleted;
 
 		timeLeft -= Time.deltaTime;
@@ -117,6 +121,7 @@ public class OrderGenerator : MonoBehaviour {
 		if (Input.GetKeyDown (topping1)) {
 			print (toppingDesc1);
 			topping1Placed = true;
+
 		}
 		if (Input.GetKeyDown (topping2)) {
 			print (toppingDesc2);
@@ -143,7 +148,7 @@ public class OrderGenerator : MonoBehaviour {
 		WinCheck ();
 	}
 
-	void BurgerGenerator(){
+	public void BurgerGenerator(){
 		
 		if (toppingCount < potentialToppings	) {
 			toppingRandomizer ();
@@ -276,16 +281,16 @@ public class OrderGenerator : MonoBehaviour {
 	void Scoring(){
 		if(Mathf.Round(timeTaken) < fastestBonus){
 			print ("Whoa! That's fast!");
-			calculate += 4.98;
+			calculate += 4.91;
 		}else if(Mathf.Round(timeTaken) < fastBonus){
 			print("That was fast!");
-			calculate += 4.36;
+			calculate += 4.31;
 		}else if(Mathf.Round(timeTaken) < standardTime){
 			print ("Thanks for the burger!");
-			calculate += 3.98;
+			calculate += 3.91;
 		}else{
 			print ("You took so long! I'm not even hungry now!");
-			calculate -= 0.29;
+			calculate -= 0.28;
 		}
 		MoneyEarned.text = "$"+calculate.ToString ();
 	}
@@ -317,6 +322,9 @@ public class OrderGenerator : MonoBehaviour {
 		topping5Placed = false;
 		topping6Placed = false;
 		youWin = false;
+		isHidingPatty.Show ();
+		isHidingLettuce.Show ();
+		isHidingPickles.Show ();
 	}
 
 	void gameEnd(){
@@ -332,13 +340,13 @@ public class OrderGenerator : MonoBehaviour {
 	}
 
 	void WinCheck(){
-		if (topping1Placed == true) {
-			if(topping2Placed== true){
-				if(topping3Placed== true){
-					if (topping4Placed == true) {
-						if (topping5Placed == true) {
-							if (topping6Placed == true) {
-								if (youWin == false) {
+		if (topping1Placed) {
+			if(topping2Placed){
+				if(topping3Placed){
+					if (topping4Placed) {
+						if (topping5Placed) {
+							if (topping6Placed) {
+								if (!youWin) {
 									youWin = true;
 									print ("Order completed!");
 									ordersCompleted++;
@@ -352,6 +360,24 @@ public class OrderGenerator : MonoBehaviour {
 						}
 					}
 				}
+			}
+		}
+	}
+	void UIHider(){
+		if (patty) {
+			if(Input.GetKeyDown ("q")){
+				isHidingPatty.Hide ();
+			}
+		}
+
+		if (lettuce) {
+			if (Input.GetKeyDown ("w")) {
+				isHidingLettuce.Hide ();
+			}
+		}
+		if (pickles) {
+			if (Input.GetKeyDown ("e")) {
+				isHidingPickles.Hide ();
 			}
 		}
 	}
