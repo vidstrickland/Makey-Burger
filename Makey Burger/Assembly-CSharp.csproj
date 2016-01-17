@@ -45,10 +45,18 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\_Scripts\BaconHider.cs" />
+     <Compile Include="Assets\_Scripts\GameResetHider.cs" />
+     <Compile Include="Assets\_Scripts\KetchupHider.cs" />
      <Compile Include="Assets\_Scripts\LettuceHider.cs" />
+     <Compile Include="Assets\_Scripts\MushroomsHider.cs" />
+     <Compile Include="Assets\_Scripts\MustardHider.cs" />
+     <Compile Include="Assets\_Scripts\OnionsHider.cs" />
      <Compile Include="Assets\_Scripts\OrderGenerator.cs" />
      <Compile Include="Assets\_Scripts\PattyHider.cs" />
      <Compile Include="Assets\_Scripts\PicklesHider.cs" />
+     <Compile Include="Assets\_Scripts\RelishHider.cs" />
+     <Compile Include="Assets\_Scripts\TomatoesHider.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>

@@ -12,6 +12,13 @@ public class OrderGenerator : MonoBehaviour {
 	public PattyHider isHidingPatty;
 	public LettuceHider isHidingLettuce;
 	public PicklesHider isHidingPickles;
+	public TomatoesHider isHidingTomatoes;
+	public MushroomsHider isHidingMushrooms;
+	public KetchupHider isHidingKetchup;
+	public MustardHider isHidingMustard;
+	public RelishHider isHidingRelish;
+	public OnionsHider isHidingOnions;
+	public BaconHider isHidingBacon;
 
 	public Text DisplayOrderText;
 	public Text DisplayOrdersCompleted;
@@ -20,12 +27,13 @@ public class OrderGenerator : MonoBehaviour {
 	public Text OrderTimer;
 
 	//Time to play game
-	private float timeLeft = 90.0f;
+	private float timeLeft = 5.0f;
 
 	//Time taken on current order
 	private float timeTaken = 0.0f;
 
 	private double calculate;
+	private double highScore;
 
 	//This is how many toppings this burger can potentially have.
 	public int potentialToppings = 0;
@@ -93,6 +101,7 @@ public class OrderGenerator : MonoBehaviour {
 	string orderUp = "Please make me a burger with ";
 
 	bool youWin = false;
+	bool grossBurger = false;
 
 	double scoreCalculator;
 
@@ -106,11 +115,12 @@ public class OrderGenerator : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		UIHider ();
+		ErrorCheck ();
 		scoreCalculator = ordersCompleted;
 
 		timeLeft -= Time.deltaTime;
 		timeTaken += Time.deltaTime;
-		Timer.text = "Time Left:" + Mathf.Round(timeLeft);
+		Timer.text = "Time Remaining: " + Mathf.Round(timeLeft);
 		OrderTimer.text = "This Order:" + Mathf.Round (timeTaken);
 
 		if(timeLeft < 0)
@@ -222,14 +232,6 @@ public class OrderGenerator : MonoBehaviour {
 			toppingControls (toppingKey, toppingDescriptor);
 		}
 		if (Random.Range (0, 2) == 1) {
-			relish = true;
-			toppingCount++;
-			orderUp = orderUp + "relish, ";
-			string toppingKey = "i";
-			string toppingDescriptor = "Relish!";
-			toppingControls (toppingKey, toppingDescriptor);
-		}
-		if (Random.Range (0, 2) == 1) {
 			onions = true;
 			toppingCount++;
 			orderUp = orderUp + "onions, ";
@@ -325,10 +327,20 @@ public class OrderGenerator : MonoBehaviour {
 		isHidingPatty.Show ();
 		isHidingLettuce.Show ();
 		isHidingPickles.Show ();
+		isHidingTomatoes.Show ();
+		isHidingMushrooms.Show ();
+		isHidingKetchup.Show ();
+		isHidingMustard.Show ();
+		isHidingRelish.Show ();
+		isHidingOnions.Show ();
+		isHidingBacon.Show ();
 	}
 
 	void gameEnd(){
-		gameReset ();
+		orderUp = "Test";
+		if (Input.GetKeyDown ("b")) {
+			gameReset();
+		}
 	}
 
 	void gameReset(){
@@ -345,16 +357,18 @@ public class OrderGenerator : MonoBehaviour {
 				if(topping3Placed){
 					if (topping4Placed) {
 						if (topping5Placed) {
-							if (topping6Placed) {
-								if (!youWin) {
-									youWin = true;
-									print ("Order completed!");
-									ordersCompleted++;
-									scoreCalculator = ordersCompleted;
-									Scoring ();
-									OrderReset ();
-									BurgerGenerator ();
-									DisplayOrdersCompleted.text = ordersCompleted.ToString();
+							if (!topping6Placed) {
+								if(Input.GetKeyDown ("b")){
+									if (!youWin == !grossBurger) {
+										youWin = true;
+										print ("Order completed!");
+										ordersCompleted++;
+										scoreCalculator = ordersCompleted;
+										Scoring ();
+										OrderReset ();
+										BurgerGenerator ();
+										DisplayOrdersCompleted.text = ordersCompleted.ToString();
+									}
 								}
 							}
 						}
@@ -363,10 +377,148 @@ public class OrderGenerator : MonoBehaviour {
 			}
 		}
 	}
+
+	void ErrorCheck(){
+		if (!patty) {
+			if (Input.GetKeyDown ("q")) {
+				isHidingPatty.Hide ();
+				print ("Gross! I don't want that!");
+				grossBurger = true;
+				calculate -= 0.37;
+			}
+			if (Input.GetKeyUp ("q")) {
+				isHidingPatty.Show ();
+				print ("That's better!");
+				grossBurger = false;
+			}
+		}
+		if (!lettuce) {
+			if (Input.GetKeyDown ("w")) {
+				isHidingLettuce.Hide ();
+				print ("Gross! I don't want that!");
+				grossBurger = true;
+				calculate -= 0.37;
+			}
+			if (Input.GetKeyUp ("w")) {
+				isHidingLettuce.Show ();
+				print ("That's better!");
+				grossBurger = false;
+			}
+		}
+		if (!pickles) {
+			if (Input.GetKeyDown ("e")) {
+				isHidingPickles.Hide ();
+				print ("Gross! I don't want that!");
+				grossBurger = true;
+				calculate -= 0.37;
+			}
+			if (Input.GetKeyUp ("e")) {
+				isHidingPickles.Show ();
+				print ("That's better!");
+				grossBurger = false;
+			}
+		}
+		if (!tomatoes) {
+			if (Input.GetKeyDown ("r")) {
+				isHidingTomatoes.Hide ();
+				print ("Gross! I don't want that!");
+				grossBurger = true;
+				calculate -= 0.37;
+			}
+			if (Input.GetKeyUp ("r")) {
+				isHidingTomatoes.Show ();
+				print ("That's better!");
+				grossBurger = false;
+			}
+		}
+		if (!mushrooms) {
+			if (Input.GetKeyDown ("t")) {
+				isHidingMushrooms.Hide ();
+				print ("Gross! I don't want that!");
+				grossBurger = true;
+				calculate -= 0.37;
+			}
+			if (Input.GetKeyUp ("t")) {
+				isHidingMushrooms.Show ();
+				print ("That's better!");
+				grossBurger = false;
+			}
+		}
+		if (!ketchup) {
+			if (Input.GetKeyDown ("y")) {
+				isHidingKetchup.Hide ();
+				print ("Gross! I don't want that!");
+				grossBurger = true;
+				calculate -= 0.37;
+			}
+			if (Input.GetKeyUp ("y")) {
+				isHidingKetchup.Show ();
+				print ("That's better!");
+				grossBurger = false;
+			}
+		}
+		if (!mustard) {
+			if (Input.GetKeyDown ("u")) {
+				isHidingMustard.Hide ();
+				print ("Gross! I don't want that!");
+				grossBurger = true;
+				calculate -= 0.37;
+			}
+			if (Input.GetKeyUp ("u")) {
+				isHidingKetchup.Show ();
+				print ("That's better!");
+				grossBurger = false;
+			}
+		}
+		if (!relish) {
+			if (Input.GetKeyDown ("i")) {
+				isHidingRelish.Hide ();
+				print ("Gross! I don't want that!");
+				grossBurger = true;
+				calculate -= 0.37;
+			}
+			if (Input.GetKeyUp ("i")) {
+				isHidingRelish.Show ();
+				print ("That's better!");
+				grossBurger = false;
+			}
+		}
+		if (!onions) {
+			if (Input.GetKeyDown ("o")) {
+				isHidingOnions.Hide ();
+				print ("Gross! I don't want that!");
+				grossBurger = true;
+				calculate -= 0.37;
+			}
+			if (Input.GetKeyUp ("o")) {
+				isHidingOnions.Show ();
+				print ("That's better!");
+				grossBurger = false;
+			}
+		}
+		if (!bacon) {
+			if (Input.GetKeyDown ("p")) {
+				isHidingBacon.Hide ();
+				print ("Gross! I don't want that!");
+				grossBurger = true;
+				calculate -= 0.37;
+			}
+			if (Input.GetKeyUp ("p")) {
+				isHidingBacon.Show ();
+				print ("That's better!");
+				grossBurger = false;
+			}
+		}
+		MoneyEarned.text = "$"+calculate.ToString ();
+	}
+
 	void UIHider(){
 		if (patty) {
 			if(Input.GetKeyDown ("q")){
 				isHidingPatty.Hide ();
+			}
+			if(Input.GetKeyUp ("q")){
+				isHidingPatty.Show ();
 			}
 		}
 
@@ -374,10 +526,72 @@ public class OrderGenerator : MonoBehaviour {
 			if (Input.GetKeyDown ("w")) {
 				isHidingLettuce.Hide ();
 			}
+			if(Input.GetKeyUp ("w")){
+				isHidingLettuce.Show ();
+			}
 		}
 		if (pickles) {
 			if (Input.GetKeyDown ("e")) {
 				isHidingPickles.Hide ();
+			}
+			if(Input.GetKeyUp ("e")){
+				isHidingPickles.Show ();
+			}
+		}
+		if (tomatoes) {
+			if (Input.GetKeyDown ("r")) {
+				isHidingTomatoes.Hide ();
+			}
+			if(Input.GetKeyUp ("r")){
+				isHidingTomatoes.Show ();
+			}
+		}
+		if (mushrooms) {
+			if (Input.GetKeyDown ("t")) {
+				isHidingMushrooms.Hide ();
+			}
+			if(Input.GetKeyUp ("t")){
+				isHidingMushrooms.Show ();
+			}
+		}
+		if (ketchup) {
+			if (Input.GetKeyDown ("y")) {
+				isHidingKetchup.Hide ();
+			}
+			if(Input.GetKeyUp ("y")){
+				isHidingKetchup.Show ();
+			}
+		}
+		if (mustard) {
+			if (Input.GetKeyDown ("u")) {
+				isHidingMustard.Hide ();
+			}
+			if(Input.GetKeyUp ("u")){
+				isHidingMustard.Show ();
+			}
+		}
+		if (relish) {
+			if (Input.GetKeyDown ("i")) {
+				isHidingRelish.Hide ();
+			}
+			if(Input.GetKeyUp ("i")){
+				isHidingRelish.Show ();
+			}
+		}
+		if (onions) {
+			if (Input.GetKeyDown ("o")) {
+				isHidingOnions.Hide ();
+			}
+			if(Input.GetKeyUp ("o")){
+				isHidingOnions.Show ();
+			}
+		}
+		if (bacon) {
+			if (Input.GetKeyDown ("p")) {
+				isHidingBacon.Hide ();
+			}
+			if(Input.GetKeyUp ("p")){
+				isHidingBacon.Show ();
 			}
 		}
 	}
