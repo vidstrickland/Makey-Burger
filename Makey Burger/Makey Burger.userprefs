@@ -2,10 +2,10 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets/_Scripts/OrderGenerator.cs">
     <Files>
-      <File FileName="Assets/_Scripts/OrderGenerator.cs" Line="350" Column="24" />
-      <File FileName="Assets/_Scripts/PattyHider.cs" Line="13" Column="2" />
+      <File FileName="Assets/_Scripts/OrderGenerator.cs" Line="391" Column="26" />
+      <File FileName="Assets/_Scripts/PattyHider.cs" Line="1" Column="1" />
       <File FileName="Assets/_Scripts/LettuceHider.cs" Line="13" Column="2" />
-      <File FileName="Assets/_Scripts/PicklesHider.cs" Line="13" Column="2" />
+      <File FileName="Assets/_Scripts/GameResetHider.cs" Line="13" Column="2" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

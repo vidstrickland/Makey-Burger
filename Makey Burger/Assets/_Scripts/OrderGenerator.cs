@@ -19,6 +19,7 @@ public class OrderGenerator : MonoBehaviour {
 	public RelishHider isHidingRelish;
 	public OnionsHider isHidingOnions;
 	public BaconHider isHidingBacon;
+	public GameResetHider isHidingGameReset;
 
 	public Text DisplayOrderText;
 	public Text DisplayOrdersCompleted;
@@ -27,7 +28,7 @@ public class OrderGenerator : MonoBehaviour {
 	public Text OrderTimer;
 
 	//Time to play game
-	private float timeLeft = 20.0f;
+	private float timeLeft = 90.0f;
 
 	//Time taken on current order
 	private float timeTaken = 0.0f;
@@ -102,6 +103,7 @@ public class OrderGenerator : MonoBehaviour {
 
 	public bool youWin = false;
 	public bool grossBurger = false;
+	public bool gameOver = false;
 
 	double scoreCalculator;
 
@@ -114,6 +116,10 @@ public class OrderGenerator : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if (!gameOver) {
+			isHidingGameReset.Hide ();
+		}
+
 		UIHider ();
 		ErrorCheck ();
 		scoreCalculator = ordersCompleted;
@@ -122,6 +128,10 @@ public class OrderGenerator : MonoBehaviour {
 		timeTaken += Time.deltaTime;
 		Timer.text = Mathf.Round(timeLeft) + " seconds remaining";
 		OrderTimer.text = "You've spent " + Mathf.Round (timeTaken) + " seconds on this order.";
+
+		if (Input.GetKeyUp ("l")) {
+			gameReset ();
+		}
 
 		if(timeLeft < 0)
 		{
@@ -298,7 +308,6 @@ public class OrderGenerator : MonoBehaviour {
 			calculate += 3.91;
 		}else{
 			print ("You took so long! I'm not even hungry now!");
-			calculate -= 0.28;
 		}
 		MoneyEarned.text = "$"+calculate.ToString ();
 	}
@@ -343,8 +352,13 @@ public class OrderGenerator : MonoBehaviour {
 	}
 
 	void gameEnd(){
+		gameOver = true;
+		if (calculate > highScore) {
+			highScore = calculate;
+		}
+
 		if (calculate > 0) {
-			orderUp = "Good job, you earned " + calculate + " today!";
+			orderUp = "GOOD JOB, you earned $" + calculate + " today! The high score is $" + highScore + "!";
 		} else if (calculate < 0) {
 			orderUp = "Looks like you're going to pay for that wasted food!";
 		} else {
@@ -360,17 +374,18 @@ public class OrderGenerator : MonoBehaviour {
 		ordersCompleted = 0;
 		calculate = 0.00;
 		DisplayOrdersCompleted.text = ordersCompleted.ToString();
-		timeLeft = 10.0f;
+		timeLeft = 90.0f;
 		OrderReset ();
 		BurgerGenerator ();
+		gameOver = false;
 	}
 
 	void WinCheck(){
 		if (topping1Placed) {
 			if(topping2Placed){
-				if(!topping3Placed){
-					if (!topping4Placed) {
-						if (!topping5Placed) {
+				if(topping3Placed){
+					if (topping4Placed) {
+						if (topping5Placed) {
 							if (!topping6Placed) {
 								if(Input.GetKeyDown ("b")){
 									if (!youWin == !grossBurger) {
@@ -606,6 +621,9 @@ public class OrderGenerator : MonoBehaviour {
 			if(Input.GetKeyUp ("p")){
 				isHidingBacon.Show ();
 			}
+		}
+		if (gameOver) {
+			isHidingGameReset.Show ();
 		}
 	}
 }
